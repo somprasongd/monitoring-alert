@@ -24,11 +24,11 @@ const status = (tu) => {
 const title = (tu) => {
   if (tu === 100) {
     return emoji.emojify(
-      `:large_orange_circle::large_orange_circle::large_orange_circle: ${STATUS_CRITICAL} :large_orange_circle::large_orange_circle::large_orange_circle:`
+      `:red_circle::fire::red_circle: ${STATUS_CRITICAL} :red_circle::fire::red_circle:`
     );
   } else if (tu >= 95) {
     return emoji.emojify(
-      `:large_yellow_circle::large_yellow_circle::large_yellow_circle: ${STATUS_HIGH} :large_yellow_circle::large_yellow_circle::large_yellow_circle:`
+      `:large_yellow_circle::warning::large_yellow_circle: ${STATUS_HIGH} :large_yellow_circle::warning::large_yellow_circle:`
     );
   } else {
     return emoji.emojify(

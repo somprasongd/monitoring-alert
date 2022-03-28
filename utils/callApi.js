@@ -1,8 +1,7 @@
-export async function callApi(payload) {
+export async function callAlertApi(payload) {
   try {
     const response = await fetch('/api/alert', {
       method: 'POST',
-      // mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
       },
