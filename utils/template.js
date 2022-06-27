@@ -9,26 +9,26 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 const STATUS_CRITICAL = 'Critical';
-const STATUS_HIGH = 'High';
+const STATUS_WARN = 'Warning';
 const STATUS_NORMAL = 'Normal';
 const status = (tu) => {
-  if (tu === 100) {
+  if (tu >= 90) {
     return STATUS_CRITICAL;
-  } else if (tu >= 95) {
-    return STATUS_HIGH;
+  } else if (tu >= 70) {
+    return STATUS_WARN;
   } else {
     return STATUS_NORMAL;
   }
 };
 
 const title = (tu) => {
-  if (tu === 100) {
+  if (tu >= 90) {
     return emoji.emojify(
       `:red_circle::fire::red_circle: ${STATUS_CRITICAL} :red_circle::fire::red_circle:`
     );
-  } else if (tu >= 95) {
+  } else if (tu >= 70) {
     return emoji.emojify(
-      `:large_yellow_circle::warning::large_yellow_circle: ${STATUS_HIGH} :large_yellow_circle::warning::large_yellow_circle:`
+      `:large_yellow_circle::warning::large_yellow_circle: ${STATUS_WARN} :large_yellow_circle::warning::large_yellow_circle:`
     );
   } else {
     return emoji.emojify(

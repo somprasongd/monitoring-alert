@@ -1,12 +1,15 @@
 import Graph from '../components/graph';
-
+import { useRouter } from 'next/router'
 import { Layout, Typography, Row, Col } from 'antd';
 import { clients } from '../utils/mock';
 
 const { Title } = Typography;
 const { Content, Header } = Layout;
-console.log(clients);
+
 export default function Home() {
+  const router = useRouter()
+  const { sim = '0' } = router.query
+
   return (
     <Layout>
       <Header style={{ textAlign: 'center' }}>
@@ -19,7 +22,7 @@ export default function Home() {
           {clients.map((client) => {
             return (
               <Col key={client.circuitId} style={{ margin: '5px 5px' }}>
-                <Graph client={client}></Graph>
+                <Graph client={client} isShowSimBtn={sim === '1'}></Graph>
               </Col>
             );
           })}

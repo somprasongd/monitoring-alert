@@ -15,7 +15,7 @@ import { useInterval } from '../utils/useInterval';
 
 const { Text } = Typography;
 
-export default function Graph({ client }) {
+export default function Graph({ client, isShowSimBtn = false }) {
   const [data, setData] = useState([{ x: new Date().getTime(), y: 0 }]);
   const [level, setLevel] = useState('normal');
   const [currentValue, setCurrentValue] = useState(0);
@@ -31,16 +31,18 @@ export default function Graph({ client }) {
         break;
       case 'normal': // normal
         min = 1;
-        max = 94;
+        max = 69;
         value = Math.floor(Math.random() * (max - min + 1) + min);
         break;
-      case 'high': // high
-        min = 95;
-        max = 99;
+      case 'warining': // warining
+        min = 70;
+        max = 89;
         value = Math.floor(Math.random() * (max - min + 1) + min);
         break;
       default: // critical
-        value = 100;
+        min = 90;
+        max = 100;
+        value = Math.floor(Math.random() * (max - min + 1) + min);
         break;
     }
     const newData = {
@@ -49,25 +51,25 @@ export default function Graph({ client }) {
     };
     setCurrentValue(value);
     setData([...data, newData]);
-  }, 5 * 1000);
+  }, 2 * 1000);
 
   useEffect(() => {
     let isAlert = false;
-    if (currentValue === 100 && lastAlertValue !== 100) {
+    if (currentValue >= 90 && lastAlertValue < 90) {
       isAlert = true;
     } else if (
-      currentValue >= 95 &&
-      (lastAlertValue < 95 || lastAlertValue === 100)
+      currentValue >= 70 &&
+      (lastAlertValue < 70 || lastAlertValue >= 90)
     ) {
       isAlert = true;
-    } else if (currentValue < 95 && lastAlertValue >= 95) {
+    } else if (currentValue < 70 && lastAlertValue >= 70) {
       isAlert = true;
     }
 
     if (isAlert) {
       setLastAlertValue(currentValue);
       callAlertApi({
-        senderName: 'Monitoring Dashboard Simulation',
+        senderName: client.senderName,
         timestamp: new Date().toISOString(),
         serviceName: client.serviceName,
         typeOfService: client.typeOfService,
@@ -139,49 +141,51 @@ export default function Graph({ client }) {
             </XYPlot>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            {'Simulation Level: '}
-            <Radio.Group
-              defaultValue={level}
-              buttonStyle="solid"
-              style={{ marginTop: 16 }}
-            >
-              <Radio.Button
-                value="random"
-                onClick={() => {
-                  setLevel('random');
-                }}
+        { isShowSimBtn && 
+          <Row>
+            <Col>
+              {'Simulation Level: '}
+              <Radio.Group
+                defaultValue={level}
+                buttonStyle="solid"
+                style={{ marginTop: 16 }}
               >
-                Random
-              </Radio.Button>
-              <Radio.Button
-                value="normal"
-                onClick={() => {
-                  setLevel('normal');
-                }}
-              >
-                Normal
-              </Radio.Button>
-              <Radio.Button
-                value="high"
-                onClick={() => {
-                  setLevel('high');
-                }}
-              >
-                High
-              </Radio.Button>
-              <Radio.Button
-                value="critical"
-                onClick={() => {
-                  setLevel('critical');
-                }}
-              >
-                Critical
-              </Radio.Button>
-            </Radio.Group>
-          </Col>
-        </Row>
+                <Radio.Button
+                  value="random"
+                  onClick={() => {
+                    setLevel('random');
+                  }}
+                >
+                  Random
+                </Radio.Button>
+                <Radio.Button
+                  value="normal"
+                  onClick={() => {
+                    setLevel('normal');
+                  }}
+                >
+                  Normal
+                </Radio.Button>
+                <Radio.Button
+                  value="warining"
+                  onClick={() => {
+                    setLevel('warining');
+                  }}
+                >
+                  Warning
+                </Radio.Button>
+                <Radio.Button
+                  value="critical"
+                  onClick={() => {
+                    setLevel('critical');
+                  }}
+                >
+                  Critical
+                </Radio.Button>
+              </Radio.Group>
+            </Col>
+          </Row>
+         }
       </Card>
     </>
   );
