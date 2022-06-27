@@ -15,7 +15,7 @@ import { useInterval } from '../utils/useInterval';
 
 const { Text } = Typography;
 
-export default function Graph({ client, isShowSimBtn = false }) {
+export default function Graph({ client, isShowSimBtn = false, interval = 2 }) {
   const [data, setData] = useState([{ x: new Date().getTime(), y: 0 }]);
   const [level, setLevel] = useState('random');
   const [currentValue, setCurrentValue] = useState(0);
@@ -51,7 +51,7 @@ export default function Graph({ client, isShowSimBtn = false }) {
     };
     setCurrentValue(value);
     setData([...data, newData]);
-  }, 2 * 1000);
+  }, interval * 1000);
 
   useEffect(() => {
     let isAlert = false;

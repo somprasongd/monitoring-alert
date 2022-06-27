@@ -8,7 +8,8 @@ const { Content, Header } = Layout;
 
 export default function Home() {
   const router = useRouter()
-  const { sim = '0' } = router.query
+  const { sim = '0',  interval = '2' } = router.query
+  const defaultInterval = isNaN(interval) ? 2 : +interval
 
   return (
     <Layout>
@@ -22,7 +23,7 @@ export default function Home() {
           {clients.map((client) => {
             return (
               <Col key={client.circuitId} style={{ margin: '5px 5px' }}>
-                <Graph client={client} isShowSimBtn={sim === '1'}></Graph>
+                <Graph client={client} isShowSimBtn={sim === '1'} interval={defaultInterval}></Graph>
               </Col>
             );
           })}
