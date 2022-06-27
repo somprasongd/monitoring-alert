@@ -17,7 +17,7 @@ const { Text } = Typography;
 
 export default function Graph({ client, isShowSimBtn = false }) {
   const [data, setData] = useState([{ x: new Date().getTime(), y: 0 }]);
-  const [level, setLevel] = useState('normal');
+  const [level, setLevel] = useState('random');
   const [currentValue, setCurrentValue] = useState(0);
   const [lastAlertValue, setLastAlertValue] = useState(0);
 
@@ -90,15 +90,15 @@ export default function Graph({ client, isShowSimBtn = false }) {
               style={{
                 verticalAlign: 'middle',
                 color:
-                  currentValue === 100
+                  currentValue >= 90
                     ? '#ff4d4f'
-                    : currentValue >= 95
+                    : currentValue >= 70
                     ? '#fa8c16'
                     : '#237804',
                 backgroundColor:
-                  currentValue === 100
+                  currentValue === 90
                     ? '#ffa39e'
-                    : currentValue >= 95
+                    : currentValue >= 70
                     ? '#ffd591'
                     : '#95de64',
               }}
